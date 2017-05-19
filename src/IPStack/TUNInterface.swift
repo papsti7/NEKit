@@ -60,8 +60,10 @@ open class TUNInterface {
     
     fileprivate func readPackets() {
         packetFlow?.readPackets { packets, versions in
+            NSLog("packetFlow.readPackets callback triggered!")
             QueueFactory.getQueue().async {
                 for (i, packet) in packets.enumerated() {
+                    NSLog("packet:%@",packet.hexEncodedString())
                     for stack in self.stacks {
                         if stack.input(packet: packet, version: versions[i]) {
                             break
@@ -78,5 +80,11 @@ open class TUNInterface {
         return { [weak self] packets, versions in
             self?.packetFlow?.writePackets(packets, withProtocols: versions)
         }
+    }
+}
+
+extension Data {
+    func hexEncodedString() -> String {
+        return map { String(format: "%02hhx", $0) }.joined()
     }
 }
