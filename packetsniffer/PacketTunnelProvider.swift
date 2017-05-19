@@ -26,7 +26,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider, NWUDPSocketDelegate {
         let networkSettings = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: "8.8.8.8")
         networkSettings.mtu = 1500
         
-        let ipv4Settings = NEIPv4Settings(addresses: ["129.27.229.118"], subnetMasks: ["255.255.255.0"])
+        let ipv4Settings = NEIPv4Settings(addresses: ["10.0.0.15"], subnetMasks: ["255.255.255.0"])
 //        ipv4Settings.includedRoutes = [NEIPv4Route(destinationAddress: "5.35.243.23", subnetMask: "255.255.255.0")]
         if enablePacketProcessing {
             ipv4Settings.includedRoutes = [NEIPv4Route.default()]
@@ -44,17 +44,17 @@ class PacketTunnelProvider: NEPacketTunnelProvider, NWUDPSocketDelegate {
         
         networkSettings.iPv4Settings = ipv4Settings
         
-        //        let proxySettings = NEProxySettings()
-        //        proxySettings.autoProxyConfigurationEnabled = true
-        //        proxySettings.proxyAutoConfigurationJavaScript = "function FindProxyForURL(url, host) {return \"SOCKS 127.0.0.1:\(proxyPort)\";}"
-        //        proxySettings.httpEnabled = true
-        //        proxySettings.httpServer = NEProxyServer(address: "127.0.0.1", port: proxyPort)
-        //        proxySettings.httpsEnabled = true
-        //        proxySettings.httpsServer = NEProxyServer(address: "127.0.0.1", port: proxyPort)
-        //        proxySettings.excludeSimpleHostnames = true
-        // This will match all domains
-        //        proxySettings.matchDomains = [""]
-        //        networkSettings.proxySettings = proxySettings
+                let proxySettings = NEProxySettings()
+//                proxySettings.autoProxyConfigurationEnabled = true
+//                proxySettings.proxyAutoConfigurationJavaScript = "function FindProxyForURL(url, host) {return \"SOCKS 127.0.0.1:\(proxyPort)\";}"
+                proxySettings.httpEnabled = true
+                proxySettings.httpServer = NEProxyServer(address: "127.0.0.1", port: proxyPort)
+                proxySettings.httpsEnabled = true
+                proxySettings.httpsServer = NEProxyServer(address: "127.0.0.1", port: proxyPort)
+                proxySettings.excludeSimpleHostnames = true
+//         This will match all domains
+                proxySettings.matchDomains = [""]
+                networkSettings.proxySettings = proxySettings
         
         // the 198.18.0.0/15 is reserved for benchmark.
         if enablePacketProcessing {
@@ -71,8 +71,8 @@ class PacketTunnelProvider: NEPacketTunnelProvider, NWUDPSocketDelegate {
                 completionHandler(error)
                 return
             }
-            self.proxyServer = GCDSOCKS5ProxyServer(address: IPAddress(fromString: "127.0.0.1"), port: Port(port: UInt16(self.proxyPort)))
-            //            self.proxyServer = GCDHTTPProxyServer(address: IPAddress(fromString: "127.0.0.1"), port: Port(port: UInt16(self.proxyPort)))
+//            self.proxyServer = GCDSOCKS5ProxyServer(address: IPAddress(fromString: "127.0.0.1"), port: Port(port: UInt16(self.proxyPort)))
+            self.proxyServer = GCDHTTPProxyServer(address: IPAddress(fromString: "127.0.0.1"), port: Port(port: UInt16(self.proxyPort)))
             try! self.proxyServer.start()
             
             
