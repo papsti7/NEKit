@@ -5,7 +5,7 @@ import NetworkExtension
 
 
 
-class PacketTunnelProvider: NEPacketTunnelProvider, NWUDPSocketDelegate {
+class PacketTunnelProvider: NEPacketTunnelProvider, NWUDPSocketDelegate, PacketFlowDelegate{
     var interface: TUNInterface!
     // Since tun2socks is not stable, this is recommended to set to false
     var enablePacketProcessing = true
@@ -14,11 +14,13 @@ class PacketTunnelProvider: NEPacketTunnelProvider, NWUDPSocketDelegate {
     var tcpconnection: NWTCPConnection?
     var proxyServer: ProxyServer!
     var sessionToProxyServer: NWUDPSession?
-    
+    var pcapObject : PcapObject = PcapObject()
 
     
     override func startTunnel(options: [String : NSObject]? = nil, completionHandler: @escaping (Error?) -> Void) {
-        NSLog("startTunnel")
+        
+        NSLog("12345- startTunnel")
+        
         proxyPort = 9090
         
         RawSocketFactory.TunnelProvider = self
@@ -86,7 +88,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider, NWUDPSocketDelegate {
             
             if self.enablePacketProcessing {
                 self.interface = TUNInterface(packetFlow: self.packetFlow)
-                
+                self.interface.packetFlowDelegate = self
                 var fakeIPPool : IPPool?
                 do {
                     fakeIPPool = try IPPool(range: IPRange(startIP: IPAddress(fromString: "198.18.1.1")!, endIP: IPAddress(fromString: "198.18.255.255")!))
@@ -119,41 +121,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider, NWUDPSocketDelegate {
         
         
     }
-    func readPackets() {
-        
-        self.packetFlow.readPackets { (data, number) in
-            NSLog("-------")
-            var content : String = ""
-            
-            data.map{
-                self.tcpconnection?.write($0, completionHandler: { (error) in
-                    let error = error.debugDescription ?? "nil"
-                    NSLog("error in write data to tcp connection %@", error)
-                })
-                $0.map{
-                    content += " \(String(format:"%2X", $0))"
-                }
-                //self.sessionToProxyServer?.writeDatagram($0, completionHandler: { (error) in
-                //   NSLog("error in write to proxy session: \(error)")
-                //                })
-            }
-            
-            NSLog("%@", content)
-            self.readPackets()
-        }
-    }
-    
-    
-    func writePackets() {
-        self.sessionToProxyServer?.setReadHandler({ (_packets: [Data]?, error: Error?) -> Void in
-            if let packets = _packets {
-                // This is where decrypt() should reside, I just omit it like above
-                self.packetFlow.writePackets(packets, withProtocols: [NSNumber](repeating: AF_INET as NSNumber, count: packets.count))
-            }
-        }, maxDatagrams: NSIntegerMax)
-    }
-    
-    
+
     
     func didReceive(data: Data, from: NWUDPSocket) {
         NSLog("received")
@@ -164,6 +132,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider, NWUDPSocketDelegate {
     
     override func stopTunnel(with reason: NEProviderStopReason, completionHandler: @escaping () -> Void) {
         if enablePacketProcessing {
+            self.pcapObject.writeToFile()
             interface.stop()
             interface = nil
             DNSServer.currentServer = nil
@@ -180,5 +149,86 @@ class PacketTunnelProvider: NEPacketTunnelProvider, NWUDPSocketDelegate {
         exit(EXIT_SUCCESS)
     }
     
+    func didReadPacketsFromTun(_ packets: [Data], withVersions versions: [NSNumber]) {
+        NSLog("12345- packets read")
+        packets.forEach ({
+            var ts : timespec = timespec()
+            if #available(iOSApplicationExtension 10.0, *) {
+                NSLog("12345- timespec available")
+                clock_gettime(_CLOCK_REALTIME, &ts)
+                NSLog("12345- Got timespecs")
+                NSLog("12345- ts.sec:%d ts.nsec:%d", ts.tv_sec, ts.tv_nsec)
+            } else {
+                // Fallback on earlier versions
+                ts.tv_sec = 1000
+                ts.tv_nsec = 1000 * ts.tv_sec
+            }
+
+            var length : UInt32 = UInt32($0.count)
+            
+            let ethernetHeader : ethernet_hdr_s = ethernet_hdr_s(dhost: dest_mac, shost: src_mac, type: 0x0800)
+            
+            length += 10 // sizeof(struct ethernet_hdr_s)
+            
+            let plen : UInt32 = (length < pcap_record_size ? length : pcap_record_size);
+            let pcapRecHeader : pcaprec_hdr_s = pcaprec_hdr_s(ts_sec: UInt32(ts.tv_sec), ts_usec: UInt32(ts.tv_nsec), incl_len: plen, orig_len: length)
+            
+            self.pcapObject.pcapPackets.append(PcapPacket(withHeader: pcapRecHeader, withEthernetHeader: ethernetHeader, withPayload: $0))
+        })
+        
+        
+    }
+    
+    func didWritePacketsToTun(_ packets: [Data], withVsersions versions: [NSNumber]) {
+        NSLog("12345- packet wrote")
+    }
+    
+
     
 }
+
+extension OutputStream {
+    
+    enum ValueWriteError: Error {
+        case incompleteWrite
+        case unknownError
+    }
+    
+    func write<T>(value: T) throws {
+        var value = value
+        let size = MemoryLayout.size(ofValue: value)
+        let bytesWritten = withUnsafePointer(to: &value) {
+            $0.withMemoryRebound(to: UInt8.self, capacity: size) {
+                write($0, maxLength: size)
+            }
+        }
+        if bytesWritten == -1 {
+            throw streamError ?? ValueWriteError.unknownError
+        } else if bytesWritten != size {
+            throw ValueWriteError.incompleteWrite
+        }
+    }
+}
+
+extension InputStream {
+    
+    enum ValueReadError: Error {
+        case incompleteRead
+        case unknownError
+    }
+    
+    func read<T>(value: inout T) throws {
+        let size = MemoryLayout.size(ofValue: value)
+        let bytesRead = withUnsafeMutablePointer(to: &value) {
+            $0.withMemoryRebound(to: UInt8.self, capacity: size) {
+                read($0, maxLength: size)
+            }
+        }
+        if bytesRead == -1 {
+            throw streamError ?? ValueReadError.unknownError
+        } else if bytesRead != size {
+            throw ValueReadError.incompleteRead
+        }
+    }
+}
+

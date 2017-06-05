@@ -266,6 +266,9 @@
 		36E44A021CF2ED4800185DBF /* TUNInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E44A011CF2ED4800185DBF /* TUNInterface.swift */; };
 		36E9CCFF1DD6EEF5003597CE /* QueueFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E9CCFE1DD6EEF5003597CE /* QueueFactory.swift */; };
 		36E9CD001DD6EEF5003597CE /* QueueFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E9CCFE1DD6EEF5003597CE /* QueueFactory.swift */; };
+		F85802D81EE5931900E48A20 /* PcapObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F85802D71EE5931900E48A20 /* PcapObject.swift */; };
+		F85802DA1EE593B700E48A20 /* PcapPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = F85802D91EE593B700E48A20 /* PcapPacket.swift */; };
+		F85802EA1EE5A7A500E48A20 /* pcap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F85802E91EE5A7A500E48A20 /* pcap.swift */; };
 		F86336AF1ECEF4CA00C447C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86336AE1ECEF4CA00C447C0 /* AppDelegate.swift */; };
 		F86336B11ECEF4CA00C447C0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86336B01ECEF4CA00C447C0 /* ViewController.swift */; };
 		F86336B61ECEF4CA00C447C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F86336B51ECEF4CA00C447C0 /* Assets.xcassets */; };
@@ -495,7 +498,7 @@
 		366EB5C61CE033FB00E0E942 /* DomainListRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomainListRule.swift; sourceTree = "<group>"; };
 		366EB5C81CE061C500E0E942 /* RuleParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RuleParser.swift; sourceTree = "<group>"; };
 		366EB5CA1CE061F200E0E942 /* AdapterFactoryParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdapterFactoryParser.swift; sourceTree = "<group>"; };
-		366EB5CC1CE06B5E00E0E942 /* RawSocketFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RawSocketFactory.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		366EB5CC1CE06B5E00E0E942 /* RawSocketFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = RawSocketFactory.swift; sourceTree = "<group>"; };
 		366EB5CE1CE0742F00E0E942 /* ShadowsocksAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShadowsocksAdapter.swift; sourceTree = "<group>"; };
 		368CBDA21D7911D4003CEA62 /* RejectAdapterFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RejectAdapterFactory.swift; sourceTree = "<group>"; };
 		368CBDA51D7911FA003CEA62 /* RejectAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RejectAdapter.swift; sourceTree = "<group>"; };
@@ -580,6 +583,12 @@
 		36DB3CEE1E0D610500D907DB /* IPAddressSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPAddressSpec.swift; sourceTree = "<group>"; };
 		36E44A011CF2ED4800185DBF /* TUNInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TUNInterface.swift; sourceTree = "<group>"; };
 		36E9CCFE1DD6EEF5003597CE /* QueueFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QueueFactory.swift; path = Tunnel/QueueFactory.swift; sourceTree = "<group>"; };
+		F81165491EE540CF00CF1704 /* iospacketsniffer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iospacketsniffer.entitlements; sourceTree = "<group>"; };
+		F811654A1EE540D600CF1704 /* packetsniffer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = packetsniffer.entitlements; sourceTree = "<group>"; };
+		F85802D71EE5931900E48A20 /* PcapObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PcapObject.swift; sourceTree = "<group>"; };
+		F85802D91EE593B700E48A20 /* PcapPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PcapPacket.swift; sourceTree = "<group>"; };
+		F85802DF1EE5A48000E48A20 /* pcap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcap.h; sourceTree = "<group>"; };
+		F85802E91EE5A7A500E48A20 /* pcap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = pcap.swift; sourceTree = "<group>"; };
 		F863369E1ECEF3EF00C447C0 /* packetsniffer.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = packetsniffer.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		F86336A41ECEF3F000C447C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F86336AC1ECEF4C900C447C0 /* iospacketsniffer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iospacketsniffer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1246,9 +1255,14 @@
 		F863369F1ECEF3F000C447C0 /* packetsniffer */ = {
 			isa = PBXGroup;
 			children = (
+				F811654A1EE540D600CF1704 /* packetsniffer.entitlements */,
 				F86336A41ECEF3F000C447C0 /* Info.plist */,
 				F86336BF1ECEF52300C447C0 /* PacketTunnelProvider.swift */,
 				F86336BE1ECEF52300C447C0 /* packetsniffer-Bridging-Header.h */,
+				F85802D71EE5931900E48A20 /* PcapObject.swift */,
+				F85802D91EE593B700E48A20 /* PcapPacket.swift */,
+				F85802DF1EE5A48000E48A20 /* pcap.h */,
+				F85802E91EE5A7A500E48A20 /* pcap.swift */,
 			);
 			path = packetsniffer;
 			sourceTree = "<group>";
@@ -1256,6 +1270,7 @@
 		F86336AD1ECEF4CA00C447C0 /* iospacketsniffer */ = {
 			isa = PBXGroup;
 			children = (
+				F81165491EE540CF00CF1704 /* iospacketsniffer.entitlements */,
 				F86336C11ECEF57E00C447C0 /* Main.storyboard */,
 				F86336AE1ECEF4CA00C447C0 /* AppDelegate.swift */,
 				F86336B01ECEF4CA00C447C0 /* ViewController.swift */,
@@ -1706,12 +1721,22 @@
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = 7KAMFQR46N;
 						LastSwiftMigration = 0830;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					F86336AB1ECEF4C900C447C0 = {
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = 7KAMFQR46N;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -2117,6 +2142,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F86336C01ECEF52300C447C0 /* PacketTunnelProvider.swift in Sources */,
+				F85802EA1EE5A7A500E48A20 /* pcap.swift in Sources */,
+				F85802D81EE5931900E48A20 /* PcapObject.swift in Sources */,
+				F85802DA1EE593B700E48A20 /* PcapPacket.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2510,6 +2538,7 @@
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_ENTITLEMENTS = packetsniffer/packetsniffer.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 7KAMFQR46N;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2518,12 +2547,12 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				INFOPLIST_FILE = packetsniffer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = at.tugraz.iospacketsniffer.tunnel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "94c6824c-39ec-4cc1-a196-d4ead463d367";
-				PROVISIONING_PROFILE_SPECIFIER = "Packet Sniffer Tunnel";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -2539,6 +2568,7 @@
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_ENTITLEMENTS = packetsniffer/packetsniffer.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 7KAMFQR46N;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2547,12 +2577,12 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				INFOPLIST_FILE = packetsniffer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = at.tugraz.iospacketsniffer.tunnel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "94c6824c-39ec-4cc1-a196-d4ead463d367";
-				PROVISIONING_PROFILE_SPECIFIER = "Packet Sniffer Tunnel";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "packetsniffer/packetsniffer-Bridging-Header.h";
@@ -2568,6 +2598,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_ENTITLEMENTS = iospacketsniffer/iospacketsniffer.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 7KAMFQR46N;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2576,12 +2607,12 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				INFOPLIST_FILE = iospacketsniffer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = at.tugraz.iospacketsniffer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "94538b55-dfd0-418a-afa4-6e52b4a1b643";
-				PROVISIONING_PROFILE_SPECIFIER = "Packet Sniffer";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 3.0;
@@ -2596,6 +2627,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_ENTITLEMENTS = iospacketsniffer/iospacketsniffer.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 7KAMFQR46N;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2604,12 +2636,12 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				INFOPLIST_FILE = iospacketsniffer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = at.tugraz.iospacketsniffer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "94538b55-dfd0-418a-afa4-6e52b4a1b643";
-				PROVISIONING_PROFILE_SPECIFIER = "Packet Sniffer";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2672,6 +2704,7 @@
 				F86336A61ECEF3F000C447C0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F86336BB1ECEF4CA00C447C0 /* Build configuration list for PBXNativeTarget "iospacketsniffer" */ = {
 			isa = XCConfigurationList;
@@ -2680,6 +2713,7 @@
 				F86336BD1ECEF4CA00C447C0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -1,11 +1,16 @@
 import Foundation
 import NetworkExtension
 
+public protocol PacketFlowDelegate {
+    func didReadPacketsFromTun(_ packets: [Data], withVersions versions: [NSNumber])
+    func didWritePacketsToTun(_ packets:  [Data], withVsersions versions: [NSNumber])
+}
+
 /// TUN interface provide a scheme to register a set of IP Stacks (implementing `IPStackProtocol`) to process IP packets from a virtual TUN interface.
 open class TUNInterface {
     fileprivate weak var packetFlow: NEPacketTunnelFlow?
     fileprivate var stacks: [IPStackProtocol] = []
-    
+    public var packetFlowDelegate : PacketFlowDelegate? = nil
     /**
      Initialize TUN interface with a packet flow.
      
@@ -60,10 +65,12 @@ open class TUNInterface {
     
     fileprivate func readPackets() {
         packetFlow?.readPackets { packets, versions in
-            NSLog("packetFlow.readPackets callback triggered!")
-            QueueFactory.getQueue().async {
+            if let delegate = self.packetFlowDelegate {
+                delegate.didReadPacketsFromTun(packets, withVersions: versions)
+            }
+                QueueFactory.getQueue().async {
                 for (i, packet) in packets.enumerated() {
-                    NSLog("packet:%@",packet.hexEncodedString())
+                    
                     for stack in self.stacks {
                         if stack.input(packet: packet, version: versions[i]) {
                             break
@@ -78,6 +85,9 @@ open class TUNInterface {
     
     fileprivate func generateOutputBlock() -> ([Data], [NSNumber]) -> Void {
         return { [weak self] packets, versions in
+            if let delegate = self?.packetFlowDelegate {
+                delegate.didWritePacketsToTun(packets, withVsersions: versions)
+            }
             self?.packetFlow?.writePackets(packets, withProtocols: versions)
         }
     }

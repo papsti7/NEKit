@@ -75,7 +75,21 @@ class ViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        GCDSOCKS5ProxyServer(address: IPAddress(fromString: "127.0.0.1"), port:9090)
+        let sharedContainerURL :URL? = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.at.tugraz.iospacketsniffer")?.appendingPathComponent("pcapFiles", isDirectory: true)
+        let fileManager = FileManager.default
+        let documentsFolderUrl: URL = fileManager.urls(for: .documentDirectory, in: .allDomainsMask)[0]
+        if let enumerator:FileManager.DirectoryEnumerator = fileManager.enumerator(atPath: (sharedContainerURL?.path)!) {
+            while let element = enumerator.nextObject() as? String {
+                
+                if element.hasSuffix("pcap") { // checks the extension
+                    NSLog("found file %@", element)
+                    let elementUrl = sharedContainerURL?.appendingPathComponent(element, isDirectory: false)
+                    try! fileManager.copyItem(at: elementUrl!, to: documentsFolderUrl.appendingPathComponent(element))
+                }
+            }
+        }
+       
+       
         
         // Do any additional setup after loading the view, typically from a nib.
         initVPNTunnelProviderManager()
