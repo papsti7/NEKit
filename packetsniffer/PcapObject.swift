@@ -10,7 +10,7 @@ import Foundation
 
 class PcapObject {
 
-    let filename = "new3_\(UUID.init().uuidString).pcap"
+    let filename = "\(Date().description).pcap"
     var pcapHeader : pcap_hdr_s = pcap_hdr_s(magic_number: 0xa1b2c3d4, version_major: 2, version_minor: 4, thiszone: 0, sigfigs: 0, snaplen: pcap_record_size, network: LINKTYPE_ETHERNET)
     var pcapPackets : [PcapPacket] = []
     
@@ -57,7 +57,7 @@ class PcapObject {
             let ethernetheaderSize = MemoryLayout.size(ofValue: packet.ethernetHeader)
             
             NSLog("12345- got ethernetheadersize: %d", ethernetheaderSize)
-            assert(ethernetheaderSize == 10)
+            assert(ethernetheaderSize == 14)
             bytesWritten = withUnsafePointer(to: &(packet.ethernetHeader)) {
                 $0.withMemoryRebound(to: UInt8.self, capacity: ethernetheaderSize) {
                     ostream.write($0, maxLength: ethernetheaderSize)
@@ -65,7 +65,7 @@ class PcapObject {
             }
             if bytesWritten != ethernetheaderSize {
                 // Could not write all bytes, report error ...
-                NSLog("12345- error in Writting ethernetheader, not all Bytes written: bytesWritten: %d|headersize: %d", bytesWritten, ethernetheaderSize)
+                NSLog("12345- error in Writting ethernetheader, not all Bytes written: bytesWritten: %d|ethernetheaderSize: %d", bytesWritten, ethernetheaderSize)
             }
             NSLog("12345- Wrote ethernet header")
             //packet payload
@@ -79,7 +79,7 @@ class PcapObject {
             }
             if bytesWritten != (Int(plen)) {
                 // Could not write all bytes, report error ...
-                NSLog("12345- error in Writting packet payload, not all Bytes written: bytesWritten: %d|headersize: %d", bytesWritten, Int(plen) - ethernetheaderSize)
+                NSLog("12345- error in Writting packet payload, not all Bytes written: bytesWritten: %d|plen: %d", bytesWritten, Int(plen))
             }
             NSLog("12345- Wrote packet payload")
         }

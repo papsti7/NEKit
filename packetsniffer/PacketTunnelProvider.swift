@@ -168,10 +168,10 @@ class PacketTunnelProvider: NEPacketTunnelProvider, NWUDPSocketDelegate, PacketF
             
             let ethernetHeader : ethernet_hdr_s = ethernet_hdr_s(dhost: dest_mac, shost: src_mac, type: 0x0800)
             
-            length += 10 // sizeof(struct ethernet_hdr_s)
+            length += 14 // sizeof(struct ethernet_hdr_s)
             
             let plen : UInt32 = (length < pcap_record_size ? length : pcap_record_size);
-            let pcapRecHeader : pcaprec_hdr_s = pcaprec_hdr_s(ts_sec: UInt32(ts.tv_sec), ts_usec: UInt32(ts.tv_nsec), incl_len: plen, orig_len: length)
+            let pcapRecHeader : pcaprec_hdr_s = pcaprec_hdr_s(ts_sec: UInt32(ts.tv_sec), ts_usec: UInt32(ts.tv_nsec / 1000), incl_len: plen, orig_len: length)
             
             self.pcapObject.pcapPackets.append(PcapPacket(withHeader: pcapRecHeader, withEthernetHeader: ethernetHeader, withPayload: $0))
         })
