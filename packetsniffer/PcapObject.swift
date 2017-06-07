@@ -68,19 +68,16 @@ class PcapObject {
                 NSLog("12345- error in Writting ethernetheader, not all Bytes written: bytesWritten: %d|ethernetheaderSize: %d", bytesWritten, ethernetheaderSize)
             }
             NSLog("12345- Wrote ethernet header")
-            //packet payload
-            let payloadSize = packet.payload.count
-            let plen = (payloadSize < Int(pcap_record_size) ? payloadSize : Int(pcap_record_size));
-            NSLog("12345- playloadsize: %d, plen: %d, playload count : %d", payloadSize, plen, packet.payload.count)
-            bytesWritten = withUnsafePointer(to: &(packet.payload)) {
-                $0.withMemoryRebound(to: UInt8.self, capacity: Int(plen)) {
-                    ostream.write($0, maxLength: Int(plen))
-                }
+            
+            
+            let data = Data(packet.payload)
+            
+            _ = data.withUnsafeBytes {
+                ostream.write($0, maxLength: data.count)
             }
-            if bytesWritten != (Int(plen)) {
-                // Could not write all bytes, report error ...
-                NSLog("12345- error in Writting packet payload, not all Bytes written: bytesWritten: %d|plen: %d", bytesWritten, Int(plen))
-            }
+            
+        
+
             NSLog("12345- Wrote packet payload")
         }
         NSLog("12345- Finished writing")

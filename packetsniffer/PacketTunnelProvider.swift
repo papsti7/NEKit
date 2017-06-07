@@ -166,13 +166,14 @@ class PacketTunnelProvider: NEPacketTunnelProvider, NWUDPSocketDelegate, PacketF
 
             var length : UInt32 = UInt32($0.count)
             
-            let ethernetHeader : ethernet_hdr_s = ethernet_hdr_s(dhost: dest_mac, shost: src_mac, type: 0x0800)
+            let ethernetHeader : ethernet_hdr_s = ethernet_hdr_s(dhost: dest_mac, shost: src_mac, type: 0x0008)
             
             length += 14 // sizeof(struct ethernet_hdr_s)
             
             let plen : UInt32 = (length < pcap_record_size ? length : pcap_record_size);
             let pcapRecHeader : pcaprec_hdr_s = pcaprec_hdr_s(ts_sec: UInt32(ts.tv_sec), ts_usec: UInt32(ts.tv_nsec / 1000), incl_len: plen, orig_len: length)
-            
+            let payload : NSData = NSData(data: $0)
+            NSLog("12345- payload: %@",payload)
             self.pcapObject.pcapPackets.append(PcapPacket(withHeader: pcapRecHeader, withEthernetHeader: ethernetHeader, withPayload: $0))
         })
         

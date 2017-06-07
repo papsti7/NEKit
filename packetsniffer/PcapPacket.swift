@@ -10,12 +10,15 @@ import Foundation
 class PcapPacket {
     var pcapHeader: pcaprec_hdr_s
     var ethernetHeader : ethernet_hdr_s
-    var payload : Data
+    var payload : [UInt8]
     
     init(withHeader header: pcaprec_hdr_s, withEthernetHeader ethernetHeader: ethernet_hdr_s, withPayload payload: Data) {
         self.pcapHeader = header
         self.ethernetHeader = ethernetHeader
-        self.payload = payload
+        self.payload = [UInt8](payload)
+//        var string = ""
+//        payload.forEach({ string += String(format: "%2X ", $0) })
+        
     }
     
 }
